@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 
 public class ElectricityAttack : MonoBehaviour
 {
+    private AudioSource audioSource;
+    public AudioClip electricZapClip;
     public VisualEffect vfxGraphDirectionalElectricity;
     public float electricityConsumptionRate = 1f;
     public Transform handTransform;
@@ -18,6 +20,7 @@ public class ElectricityAttack : MonoBehaviour
     {
         controller = GetComponent<ActionBasedController>();
         player = GetComponentInParent<Player>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -31,11 +34,23 @@ public class ElectricityAttack : MonoBehaviour
                 elapsedTime = 0f;
             }
             vfxGraphDirectionalElectricity.SetFloat("Lifetime", 1f);
+
+            if (!audioSource.isPlaying)
+            {
+                audioSource.clip = electricZapClip;
+                audioSource.loop = true;
+                audioSource.Play();
+            }
         }
         else
         {
             elapsedTime = 0f;
             vfxGraphDirectionalElectricity.SetFloat("Lifetime", 0f);
+
+            if (audioSource.isPlaying)
+            {
+                audioSource.Stop();
+            }
         }
     }
 }
