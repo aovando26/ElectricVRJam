@@ -7,6 +7,7 @@ public class Defibrillator : MonoBehaviour
     private AudioSource audioSource;
     private bool isUsing = false;
     public AudioClip defibrillatorClip;
+    public GameObject chargingInterface; 
 
     void Start()
     {
@@ -23,6 +24,7 @@ public class Defibrillator : MonoBehaviour
         if (isUsing)
         {
             audioSource.PlayOneShot(defibrillatorClip);
+            chargingInterface.SetActive(true);
         }
     }
 
@@ -39,9 +41,10 @@ public class Defibrillator : MonoBehaviour
     {
         if (other.CompareTag("DefibrillatorRight"))
         {
-            Debug.Log("The other object you are colliding with is: " + other.gameObject.name);
+            Debug.Log("You have are now not colliding with: " + other.gameObject.name);
             isUsing = false;
             audioSource.Stop();
+            chargingInterface.SetActive(false);
         }
     }
 }
