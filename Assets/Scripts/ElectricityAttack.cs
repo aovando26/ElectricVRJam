@@ -28,6 +28,9 @@ public class ElectricityAttack : MonoBehaviour
         if (controller.activateAction.action.phase == InputActionPhase.Performed && player.electricity > 0)
         {
             elapsedTime += Time.deltaTime;
+
+            // Debug.Log(elapsedTime);
+
             if (elapsedTime >= 1f)
             {
                 player.UseElectricity(electricityConsumptionRate);
@@ -40,6 +43,19 @@ public class ElectricityAttack : MonoBehaviour
                 audioSource.clip = electricZapClip;
                 audioSource.loop = true;
                 audioSource.Play();
+            }
+
+            // raycasting to detect hits
+            // from player's hand / electricity attack origin - returning z - axis 
+            Ray ray = new Ray(handTransform.position, handTransform.forward);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit))
+            {
+                ReactiveTarget target = hit.collider.GetComponent<ReactiveTarget>();
+                if (target != null)
+                {
+                    target.ReactToHit();
+                }
             }
         }
         else
