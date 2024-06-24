@@ -52,9 +52,11 @@ public class ElectricityAttack : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 ReactiveTarget target = hit.collider.GetComponent<ReactiveTarget>();
+                int scorePerPrefab = 1; 
                 if (target != null)
                 {
                     target.ReactToHit();
+                    ScoreManager.instance.AddScore(scorePerPrefab);
                 }
             }
         }
