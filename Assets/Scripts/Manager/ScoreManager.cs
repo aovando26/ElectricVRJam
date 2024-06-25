@@ -27,7 +27,7 @@ public class ScoreManager : MonoBehaviour
     public void AddScore(int value)
     {
         score = score + value;
-        scoreText.text = score.ToString() + " Enemies Killed";
+        scoreText.text = score.ToString();
         Debug.Log("Target has been hit. You have a score of " + score);
     }
 }
