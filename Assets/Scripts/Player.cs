@@ -1,12 +1,14 @@
 using System;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
     public int health = 100;
     public float electricity = 50f;
     public float maxCharge = 100.0f;
+    public Slider electricitySlider;
 
     // used to notify listeners when the player's electricity is fully charged.
     public static event Action OnElectricityReady;
@@ -14,12 +16,13 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Initialize player variables here if needed
+        electricitySlider.value = electricity/maxCharge;
     }
 
     // Update is called once per frame
     void Update()
     {
+        electricitySlider.value = electricity / maxCharge;
         // Update player variables based on game logic
     }
 
