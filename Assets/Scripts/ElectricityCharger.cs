@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class ElectricityCharger : MonoBehaviour  
+public class ElectricityCharger : MonoBehaviour
 {
     public float electricityAmount = 5f;
     public float chargingInterval = 1f;
@@ -10,13 +10,11 @@ public class ElectricityCharger : MonoBehaviour
     private Player player;
     private float timer;
     private bool isCharging = false;
-    //private Animator rightHandAnimation;
 
     private AudioSource audioSource;
     public AudioClip chargingClip;
     public GameObject chargingInterface;
-    //public GameObject animatedRHand;
-
+    public GameObject chargedInterface;
 
     private void Start()
     {
@@ -25,16 +23,6 @@ public class ElectricityCharger : MonoBehaviour
         interactable.hoverExited.AddListener(OnHoverExited);
 
         audioSource = GetComponent<AudioSource>();
-        //rightHandAnimation = animatedRHand.GetComponent<Animator>(); 
-        
-        //if (rightHandAnimation == null)
-        //{
-        //    Debug.LogError("Animator component is missing from animatedRHand.");
-        //}
-        //else
-        //{
-        //    Debug.Log("Animator component found.");
-        //}
     }
 
     private void Update()
@@ -42,17 +30,20 @@ public class ElectricityCharger : MonoBehaviour
         if (player != null && isCharging)
         {
             timer += Time.deltaTime;
-            //audioSource.PlayOneShot(chargingClip);
-            //chargingInterface.SetActive(true);
-
-            // chargingInterval is 0.2f;
-            //Debug.Log("Charging Inteval is: " + chargingInterval);
-            //Debug.Log(" TIme is: " + timer);
 
             if (timer >= chargingInterval)
             {
                 player.ChargeElectricity(electricityAmount);
                 timer = 0f;
+
+                // accessing player class 
+                // checking if electricty exceeds max charge 
+                // charged interface is invoked 
+                if (player.electricity >= player.maxCharge)
+                {
+                    isCharging = false;
+                    SwitchToChargedInterface();
+                }
             }
         }
     }
@@ -62,25 +53,21 @@ public class ElectricityCharger : MonoBehaviour
         XRBaseInteractor interactor = args.interactor;
         player = interactor.GetComponentInParent<Player>();
         timer = 0f;
+        
+        // state of charging is now true, so if statement condition one line 30 is executed 
         isCharging = true;
-        if (chargingClip != null && !audioSource.isPlaying)
+
+        if (!audioSource.isPlaying)
         {
+
+            // audio is play if it isn't already
             audioSource.clip = chargingClip;
             audioSource.loop = true;
             audioSource.Play();
         }
 
         chargingInterface.SetActive(true);
-        //if (rightHandAnimation != null)
-        //{
-        //    Debug.Log("Setting playingAnimation to true.");
-        //    rightHandAnimation.SetLayerWeight(1, 1);
-        //    rightHandAnimation.SetBool("playingAnimation", true);
-        //}
-        //else
-        //{
-        //    Debug.Log("Right Hand Animator is not found");
-        //}
+        chargedInterface.SetActive(false); // make sure the charged interface is initially hidden
     }
 
     private void OnHoverExited(HoverExitEventArgs args)
@@ -93,12 +80,20 @@ public class ElectricityCharger : MonoBehaviour
             audioSource.Stop();
         }
 
-        if (chargingInterface != null)
+        chargingInterface.SetActive(false);
+        chargedInterface.SetActive(false);
+    }
+
+    private void SwitchToChargedInterface()
+    {
+        if (audioSource.isPlaying)
         {
-            chargingInterface.SetActive(false);
+            audioSource.Stop();
         }
 
-        //rightHandAnimation.SetBool("playingAnimation", false);
-        //rightHandAnimation.SetLayerWeight(1, 0);
+        chargingInterface.SetActive(false);
+        chargedInterface.SetActive(true);
+
+        Debug.Log("Switching to charged interface");
     }
 }

@@ -476,8 +476,7 @@ MonoBehaviour:
   chargingInterval: 0.2
   chargingClip: {fileID: 8300000, guid: f0793b92815aea24abb2734a0c10ca81, type: 3}
   chargingInterface: {fileID: 0}
-  animatedRHand: {fileID: 3240524871627034548, guid: 534053b397750e74588f25f926e8da72,
-    type: 3}
+  chargedInterface: {fileID: 0}
 --- !u!4 &8814194556538672057 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 33b118ea1bdd79542a6dd26b9771bc21,

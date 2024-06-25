@@ -1,7 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+
+/* 
+ * this script is designed to trigger haptic feedback (vibration) through an XRDirectInteractor component when the OnElectricityReady event is raised by the Player class. 
+*/
 
 public class ElectricityReady : MonoBehaviour
 {
@@ -9,17 +11,19 @@ public class ElectricityReady : MonoBehaviour
     public float intensity;
     public float duration;
     private XRDirectInteractor interactor;
-    private Player player; 
 
     // Start is called before the first frame update
     void Start()
     {
         interactor = GetComponentInChildren<XRDirectInteractor>();
+
+        // subscribes TriggerHaptic method to the OnElectricityReady Event
         Player.OnElectricityReady += TriggerHaptic;
     }
 
     void OnDestroy()
     {
+        // unsubscribes TriggerHaptic method to the OnElectricityReady Event
         Player.OnElectricityReady -= TriggerHaptic;
     }
 
