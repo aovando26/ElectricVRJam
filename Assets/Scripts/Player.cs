@@ -1,11 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class Player : MonoBehaviour
 {
     public int health = 100;
     public float electricity = 50f;
+    public float maxCharge = 100.0f;
+
+    // used to notify listeners when the player's electricity is fully charged.
+    public static event Action OnElectricityReady;
 
     // Start is called before the first frame update
     void Start()
@@ -41,14 +45,37 @@ public class Player : MonoBehaviour
     public void UseElectricity(float amount)
     {
         electricity -= amount;
-        electricity = Mathf.Clamp(electricity, 0f, 100f);
+        electricity = Mathf.Clamp(electricity, 0f, maxCharge);
+        Debug.Log("Used Electricity: " + electricity);
     }
 
     // Method to increase player's electricity
     public void ChargeElectricity(float amount)
     {
-        electricity += amount;
-        electricity = Mathf.Clamp(electricity, 0f, 100f);
+        if (electricity < maxCharge)
+        {
+            electricity += amount;
+            electricity = Mathf.Clamp(electricity, 0f, maxCharge);
+            Debug.Log("Current Electricity: " + electricity);
+            if (electricity == maxCharge)
+            {
+                // called when maxCharge is reached
+                ElectricityReady();
+            }
+        }
+    }
+
+    public void ElectricityReady()
+    {
+        if (OnElectricityReady != null)
+        {
+            Debug.Log("Vibration has now been invoked");
+
+            // check for subscribes to the OnElectricityReady event
+            // refer to ElectricityReady class for example 
+            OnElectricityReady.Invoke();
+        }
+
     }
 
     // Method called when player dies

@@ -8,13 +8,27 @@ public class ElectricityAttack : MonoBehaviour
     private AudioSource audioSource;
     public AudioClip electricZapClip;
     public VisualEffect vfxGraphDirectionalElectricity;
-    public float electricityConsumptionRate = 1f;
+    public float electricityConsumptionRate = 10.0f;
     public Transform handTransform;
     public float heightOffset = 1f;
 
     private ActionBasedController controller;
     private Player player;
     private float elapsedTime;
+
+    //  indicator to check if the player's electricity is ready - initally set to false
+    private bool isElectricityReady = false;
+
+    // subscribes and unsubscribes to the OnElectricityReady event from the Player class
+    private void OnEnable()
+    {
+        Player.OnElectricityReady += HandleElectricityReady;
+    }
+
+    private void OnDisable()
+    {
+        Player.OnElectricityReady -= HandleElectricityReady;
+    }
 
     private void Start()
     {
@@ -23,16 +37,25 @@ public class ElectricityAttack : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
+    // this event is triggered when the player's electricity is ready for attack 
+    private void HandleElectricityReady()
+    {
+        isElectricityReady = true;
+    }
+
     private void Update()
     {
-        if (controller.activateAction.action.phase == InputActionPhase.Performed && player.electricity > 0)
+        // check if electricity is ready, action performed, and if player has enough electricity (greater than 0)
+        if (isElectricityReady && controller.activateAction.action.phase == InputActionPhase.Performed && player.electricity > 0)
         {
             elapsedTime += Time.deltaTime;
+
             if (elapsedTime >= 1f)
             {
                 player.UseElectricity(electricityConsumptionRate);
                 elapsedTime = 0f;
             }
+
             vfxGraphDirectionalElectricity.SetFloat("Lifetime", 1f);
 
             if (!audioSource.isPlaying)
@@ -41,12 +64,27 @@ public class ElectricityAttack : MonoBehaviour
                 audioSource.loop = true;
                 audioSource.Play();
             }
+
+            // raycasting to detect hits
+            Ray ray = new Ray(handTransform.position, handTransform.forward);
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                ReactiveTarget target = hit.collider.GetComponent<ReactiveTarget>();
+                int scorePerPrefab = 1;
+                if (target != null)
+                {
+                    target.ReactToHit();
+                    ScoreManager.instance.AddScore(scorePerPrefab);
+                }
+            }
         }
         else
         {
+            // VFX settings are reset
             elapsedTime = 0f;
             vfxGraphDirectionalElectricity.SetFloat("Lifetime", 0f);
 
+            // stops audio playback
             if (audioSource.isPlaying)
             {
                 audioSource.Stop();

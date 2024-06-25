@@ -11,7 +11,7 @@ public class Defibrillator : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("This is Defibrillator script");
+        // Debug.Log("This is Defibrillator script");
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
         {

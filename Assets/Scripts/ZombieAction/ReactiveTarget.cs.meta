@@ -1,11 +1,9 @@
 fileFormatVersion: 2
-guid: bd63f532d8607c14e9ad58b4e00bd13e
+guid: 87a91a98a504c0b48855c13688fdf07a
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - chargingClip: {instanceID: 0}
-  - chargingInterface: {instanceID: 0}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
