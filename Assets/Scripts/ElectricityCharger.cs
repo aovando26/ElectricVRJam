@@ -13,8 +13,8 @@ public class ElectricityCharger : MonoBehaviour
 
     private AudioSource audioSource;
     public AudioClip chargingClip;
-    public GameObject chargingInterface;
-    public GameObject chargedInterface;
+    //public GameObject chargingInterface;
+    //public GameObject chargedInterface;
 
     private void Start()
     {
@@ -42,7 +42,7 @@ public class ElectricityCharger : MonoBehaviour
                 if (player.electricity >= player.maxCharge)
                 {
                     isCharging = false;
-                    SwitchToChargedInterface();
+                    //SwitchToChargedInterface();
                 }
             }
         }
@@ -66,8 +66,8 @@ public class ElectricityCharger : MonoBehaviour
             audioSource.Play();
         }
 
-        chargingInterface.SetActive(true);
-        chargedInterface.SetActive(false); // make sure the charged interface is initially hidden
+        //chargingInterface.SetActive(true);
+        //chargedInterface.SetActive(false); // make sure the charged interface is initially hidden
     }
 
     private void OnHoverExited(HoverExitEventArgs args)
@@ -80,8 +80,8 @@ public class ElectricityCharger : MonoBehaviour
             audioSource.Stop();
         }
 
-        chargingInterface.SetActive(false);
-        chargedInterface.SetActive(false);
+        //chargingInterface.SetActive(false);
+        //chargedInterface.SetActive(false);
     }
 
     private void SwitchToChargedInterface()
@@ -91,9 +91,9 @@ public class ElectricityCharger : MonoBehaviour
             audioSource.Stop();
         }
 
-        chargingInterface.SetActive(false);
-        chargedInterface.SetActive(true);
+        //chargingInterface.SetActive(false);
+        //chargedInterface.SetActive(true);
 
-        Debug.Log("Switching to charged interface");
+        //Debug.Log("Switching to charged interface");
     }
 }

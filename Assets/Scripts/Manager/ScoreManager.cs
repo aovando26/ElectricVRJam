@@ -29,5 +29,20 @@ public class ScoreManager : MonoBehaviour
         score = score + value;
         scoreText.text = score.ToString();
         Debug.Log("Target has been hit. You have a score of " + score);
+
+        //if (score == 10)
+        //{
+        //    ScoreEarned(); 
+        //}
     }
+
+    public int GetScore()
+    {
+        return score;
+    }
+
+    //private void ScoreEarned()
+    //{
+    //    Debug.Log("Score of 10 reached!");
+    //}
 }
