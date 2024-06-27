@@ -9,6 +9,7 @@ TagManager:
   - Outlet
   - DirectInteractor
   - LeftController
+  - Button
   layers:
   - Default
   - TransparentFX
