@@ -7,7 +7,7 @@ public class WanderingAI : MonoBehaviour
 {
     private NavMeshAgent agent;
     public Transform target; // refer to line 34 of spawn manager
-    [SerializeField] private float stoppingDistance = 3f;
+    [SerializeField] private float stoppingDistance = 1f;
 
     private void Start()
     {

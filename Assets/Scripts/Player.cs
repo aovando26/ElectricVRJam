@@ -42,6 +42,7 @@ public class Player : MonoBehaviour
     public void TakeDamage(int damageAmount)
     {
         health -= damageAmount;
+        Debug.Log($"Health : {health}");
         if (health <= 0)
         {
             // Player dies
