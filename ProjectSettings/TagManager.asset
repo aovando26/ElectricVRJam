@@ -7,6 +7,9 @@ TagManager:
   - DefibrillatorRight
   - DefibrillatorLeft
   - Outlet
+  - DirectInteractor
+  - LeftController
+  - Button
   layers:
   - Default
   - TransparentFX

@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     public float electricity = 50f;
     public float maxCharge = 100.0f;
     public Slider electricitySlider;
+    public float electricityStart = 0.0f; 
 
     // used to notify listeners when the player's electricity is fully charged.
     public static event Action OnElectricityReady;
@@ -16,13 +17,24 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        electricitySlider.value = electricity/maxCharge;
+        if (electricitySlider != null)
+        {
+            electricitySlider.value = electricityStart / maxCharge;
+            // Debug.Log(electricitySlider.value);
+        }
+
+        else 
+        {
+            Debug.Log("Slider is missing");    
+        }
+
     }
 
     // Update is called once per frame
     void Update()
     {
         electricitySlider.value = electricity / maxCharge;
+        // Debug.Log(electricitySlider.value);
         // Update player variables based on game logic
     }
 
@@ -30,6 +42,7 @@ public class Player : MonoBehaviour
     public void TakeDamage(int damageAmount)
     {
         health -= damageAmount;
+        Debug.Log($"Health : {health}");
         if (health <= 0)
         {
             // Player dies
