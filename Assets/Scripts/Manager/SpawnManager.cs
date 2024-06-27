@@ -5,7 +5,8 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     public GameObject[] zombiePrefabs;
-    public Transform xrOriginTransform; // Assign the XR Origin transform in the Inspector
+
+    public Transform xrOriginTransform; 
 
     private int intervalOfX = 10;
     private int spawnPosZ = -20;
@@ -25,10 +26,11 @@ public class SpawnManager : MonoBehaviour
         Vector3 spawnPos = new Vector3(randomX, 1.5f, spawnPosZ);
         GameObject newZombie = Instantiate(zombiePrefabs[indexCount], spawnPos, zombiePrefabs[indexCount].transform.rotation);
 
-        // Assign the target to the WanderingAI component of the spawned zombie
+        // assign the target to the WanderingAI component of the spawned zombie - retrieving script
         WanderingAI wanderingAI = newZombie.GetComponent<WanderingAI>();
         if (wanderingAI != null)
         {
+            // assign the XR Origin transform, so that the target knows to follow player 
             wanderingAI.target = xrOriginTransform;
         }
     }

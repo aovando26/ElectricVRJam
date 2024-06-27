@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class WanderingAI : MonoBehaviour
 {
     private NavMeshAgent agent;
-    public Transform target; // This will be assigned dynamically
+    public Transform target; // refer to line 34 of spawn manager
     [SerializeField] private float stoppingDistance = 3f;
 
     private void Start()
@@ -14,6 +14,7 @@ public class WanderingAI : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
     }
 
+    // frame by frame when spawned 
     private void Update()
     {
         MoveToTarget();
@@ -23,10 +24,13 @@ public class WanderingAI : MonoBehaviour
     {
         if (target != null)
         {
+            // follows the xr origin position 
             agent.SetDestination(target.position);
 
+            // return the distance between a and b and stores in variable
             float distanceToTarget = Vector3.Distance(transform.position, target.position);
 
+            
             if (distanceToTarget <= stoppingDistance)
             {
                 RotateToTarget();
@@ -39,6 +43,7 @@ public class WanderingAI : MonoBehaviour
         }
     }
 
+    // method to smoothly rotate an object to face a target position 
     private void RotateToTarget()
     {
         Vector3 direction = (target.position - transform.position).normalized;
