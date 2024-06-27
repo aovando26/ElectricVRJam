@@ -4,16 +4,17 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class FinishGame : MonoBehaviour
 {
     public float deadTime = 1.0f;
     private bool _deadTimeActive = false;
     public UnityEvent onPressed, onReleased;
-
     public AudioSource soundEffect;
     public Image blackOverlay;
     public TextMeshProUGUI endText;
+    public float resetDelay = 5f;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -43,12 +44,10 @@ public class FinishGame : MonoBehaviour
     private void FinishTheGame()
     {
         Debug.Log("Button is pressed, game is finished!");
-
         if (soundEffect != null)
         {
             soundEffect.Play();
         }
-
         StartCoroutine(FadeToBlack());
     }
 
@@ -73,7 +72,18 @@ public class FinishGame : MonoBehaviour
             endText.gameObject.SetActive(true);
         }
 
-        // Additional game-ending logic can be added here
+        StartCoroutine(ResetSceneAfterDelay());
+    }
+
+    IEnumerator ResetSceneAfterDelay()
+    {
+        yield return new WaitForSeconds(resetDelay);
+        ResetScene();
+    }
+
+    private void ResetScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     void Start()
@@ -82,7 +92,6 @@ public class FinishGame : MonoBehaviour
         {
             blackOverlay.color = new Color(0, 0, 0, 0);
         }
-
         if (endText != null)
         {
             endText.gameObject.SetActive(false);
