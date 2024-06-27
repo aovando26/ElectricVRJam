@@ -46,7 +46,7 @@ public class ElectricityAttack : MonoBehaviour
     private void Update()
     {
         // check if electricity is ready, action performed, and if player has enough electricity (greater than 0)
-        if (isElectricityReady && controller.activateAction.action.phase == InputActionPhase.Performed && player.electricity > 0)
+        if (controller.activateAction.action.phase == InputActionPhase.Performed && player.electricity > 0)
         {
             elapsedTime += Time.deltaTime;
 
