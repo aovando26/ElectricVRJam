@@ -28,6 +28,7 @@ public class OpenDoor : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        // storing returned value 
         int currentScore = ScoreManager.instance.GetScore();
 
         if (currentScore >= requiredSouls)

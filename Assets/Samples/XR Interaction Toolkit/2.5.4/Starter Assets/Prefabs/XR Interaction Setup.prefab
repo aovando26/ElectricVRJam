@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4251038825235029706}
   - component: {fileID: 8445407373057857626}
   - component: {fileID: 6480626193896237961}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: ExitButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -323,7 +323,7 @@ GameObject:
   - component: {fileID: 6635302993695257043}
   - component: {fileID: 5053808888129669353}
   - component: {fileID: 8068145531081383843}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -534,7 +534,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1033827559732380137
 Transform:
   m_ObjectHideFlags: 0
@@ -562,7 +562,7 @@ GameObject:
   - component: {fileID: 6097673491005393077}
   - component: {fileID: 1368274991341047189}
   - component: {fileID: 4833298097362591541}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -784,7 +784,7 @@ GameObject:
   - component: {fileID: 9166291119925744442}
   - component: {fileID: 3190367075664956267}
   - component: {fileID: 7950715643861595955}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1351,7 +1351,7 @@ GameObject:
   - component: {fileID: 2710808106369094938}
   - component: {fileID: 771719332251991040}
   - component: {fileID: 6770357185449583000}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1366,7 +1366,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3765479109373221744}
   m_LocalRotation: {x: -0, y: 0.6087617, z: -0, w: 0.79335314}
-  m_LocalPosition: {x: 0, y: 0, z: -0.642}
+  m_LocalPosition: {x: 0, y: 0, z: -0.619}
   m_LocalScale: {x: 0.001, y: 0.001, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1375,7 +1375,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 75, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.121, y: 0}
+  m_AnchoredPosition: {x: 0.115, y: 0}
   m_SizeDelta: {x: 1067, y: 443}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &2001133388642598885
@@ -1472,7 +1472,8 @@ GameObject:
   - component: {fileID: 2794919056022320513}
   - component: {fileID: 2491596901341277477}
   - component: {fileID: 2966342006271322831}
-  m_Layer: 0
+  - component: {fileID: 6399795167679136904}
+  m_Layer: 5
   m_Name: ResetButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1580,7 +1581,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2491596901341277477}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6399795167679136904}
+        m_TargetAssemblyTypeName: LoadScene, Assembly-CSharp
+        m_MethodName: ReloadCurrentScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &6399795167679136904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4396830268201122544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04cf0816d08ba6545b0529a3d6a7dafd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4716650885729444971
 GameObject:
   m_ObjectHideFlags: 0
@@ -1593,7 +1618,7 @@ GameObject:
   - component: {fileID: 7541888921911705926}
   - component: {fileID: 2572773196571666425}
   - component: {fileID: 7800000740347956712}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CancelButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1700,7 +1725,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2572773196571666425}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8355326827842537692}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4888482236939680059
 GameObject:
   m_ObjectHideFlags: 0
@@ -1862,7 +1899,7 @@ GameObject:
   - component: {fileID: 4979989219862693958}
   - component: {fileID: 5622467634462376871}
   - component: {fileID: 7437158502414519833}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2680,7 +2717,7 @@ VFXRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7264544562222422133}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1

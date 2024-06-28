@@ -71,6 +71,7 @@ public class ElectricityAttack : MonoBehaviour
             {
                 ReactiveTarget target = hit.collider.GetComponent<ReactiveTarget>();
                 int scorePerPrefab = 1;
+                Debug.Log($"Current score is {scorePerPrefab}");
                 if (target != null)
                 {
                     target.ReactToHit();
