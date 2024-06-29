@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class WaveManager : MonoBehaviour
 {
+    // singleton instance to ensure that only one instance exist throughout the game
+    // provides global access that can be referenced, i.e line 26 of SpawnManager script 
     public static WaveManager Instance { get; private set; }
 
     [Header("Wave Settings")]
@@ -13,7 +15,11 @@ public class WaveManager : MonoBehaviour
 
     [Header("Spawn Settings")]
     public float initialSpawnInterval = 5.0f;
+
+    // amount by which the spawn interval decreases each wave
     public float spawnIntervalDecrease = 0.5f;
+
+    // Minimum possible spawn interval.
     public float minimumSpawnInterval = 1.0f;
 
     [Header("Debug Information")]
@@ -21,7 +27,10 @@ public class WaveManager : MonoBehaviour
     public int enemiesRemainingAlive;
     public bool isWaveActive = false;
 
+    // delegate defined
     public delegate void WaveEvent(int waveNumber);
+
+    // event declarations
     public event WaveEvent OnWaveStart;
     public event WaveEvent OnWaveEnd;
 
@@ -78,6 +87,7 @@ public class WaveManager : MonoBehaviour
         LogWaveState();
     }
 
+    // check if more enemies can be spawned in the current wave
     public bool CanSpawnEnemy()
     {
         if (isWaveActive && enemiesRemainingToSpawn > 0)
@@ -88,6 +98,7 @@ public class WaveManager : MonoBehaviour
         return false;
     }
 
+    // handles the event of an enemy being killed
     public void EnemyKilled()
     {
         enemiesRemainingAlive--;
@@ -95,12 +106,14 @@ public class WaveManager : MonoBehaviour
         LogWaveState();
     }
 
+    // calculates the current spawn interval
     public float GetCurrentSpawnInterval()
     {
         float interval = initialSpawnInterval - (currentWave - 1) * spawnIntervalDecrease;
         return Mathf.Max(interval, minimumSpawnInterval);
     }
 
+    // Logs the current state of the wave for debugging purposes
     public void LogWaveState()
     {
         Debug.Log($"Wave State: Wave {currentWave}, Active: {isWaveActive}, " +
