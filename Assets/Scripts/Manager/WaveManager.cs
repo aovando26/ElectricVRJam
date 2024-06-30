@@ -59,7 +59,7 @@ public class WaveManager : MonoBehaviour
         }
         else
         {
-            waveStatusText.text = ""
+            waveStatusText.text = "";
             SetPanelAlpha(0); // Initialize panel to be invisible
         }
     }
