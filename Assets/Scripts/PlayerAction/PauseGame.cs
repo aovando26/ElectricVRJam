@@ -17,12 +17,12 @@ public class PauseGame : MonoBehaviour
     public void Pause()
     {
         pausePanel.SetActive(true); // show the pause UI
-        Time.timeScale = 1.0f; // stops the game time    
+        Time.timeScale = 0.0f; // stops the game time    
     }
 
     public void Continue()
     {
         pausePanel.SetActive(false); // hides the pause UI
-        Time.timeScale = 1.1f; // resume the game time
+        Time.timeScale = 1.0f; // resume the game time
     }
 }
