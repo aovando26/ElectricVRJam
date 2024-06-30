@@ -12,6 +12,9 @@ public class ElectricityAttack : MonoBehaviour
     public Transform handTransform;
     public float heightOffset = 1f;
 
+    public SpawnManager spawnManager;
+    public int damageAmount = 20;
+
     private ActionBasedController controller;
     private Player player;
     private float elapsedTime;
@@ -70,11 +73,14 @@ public class ElectricityAttack : MonoBehaviour
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
                 ReactiveTarget target = hit.collider.GetComponent<ReactiveTarget>();
+                GameObject enemy = hit.collider.gameObject;
                 int scorePerPrefab = 1;
+                //Debug.Log($"Current score is {scorePerPrefab}");
                 if (target != null)
                 {
                     target.ReactToHit();
                     ScoreManager.instance.AddScore(scorePerPrefab);
+                    spawnManager.DamageEnemy(enemy, damageAmount);
                 }
             }
         }
