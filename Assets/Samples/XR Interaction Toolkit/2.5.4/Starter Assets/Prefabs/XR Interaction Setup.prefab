@@ -3914,6 +3914,8 @@ MonoBehaviour:
   electricityConsumptionRate: 10
   handTransform: {fileID: 9014170783705847996}
   heightOffset: 1
+  spawnManager: {fileID: 0}
+  damageAmount: 100
 --- !u!82 &6535787786605086607
 AudioSource:
   m_ObjectHideFlags: 0
