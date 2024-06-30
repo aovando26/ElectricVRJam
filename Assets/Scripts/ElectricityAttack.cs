@@ -75,7 +75,7 @@ public class ElectricityAttack : MonoBehaviour
                 ReactiveTarget target = hit.collider.GetComponent<ReactiveTarget>();
                 GameObject enemy = hit.collider.gameObject;
                 int scorePerPrefab = 1;
-                Debug.Log($"Current score is {scorePerPrefab}");
+                //Debug.Log($"Current score is {scorePerPrefab}");
                 if (target != null)
                 {
                     target.ReactToHit();

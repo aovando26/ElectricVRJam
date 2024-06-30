@@ -28,7 +28,7 @@ public class ScoreManager : MonoBehaviour
     {
         score = score + value;
         scoreText.text = score.ToString();
-        Debug.Log("Target has been hit. You have a score of " + score);
+        //Debug.Log("Target has been hit. You have a score of " + score);
 
         //if (score == 10)
         //{
