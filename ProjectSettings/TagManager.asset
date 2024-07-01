@@ -15,26 +15,11 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+  - wallLayer
   - 
-=======
-  - wallLayer
-  - enemy
->>>>>>> Stashed changes
-  - 
-=======
-  - wallLayer
-  - enemy
->>>>>>> Stashed changes
-=======
-  - wallLayer
-  - enemy
->>>>>>> Stashed changes
   - 
   - 
   - 

@@ -9,9 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/StartScene.unity
     guid: f773f55d975c0a94fa89379feb15c9ce
   - enabled: 1
-    path: Assets/Scenes/ElectricJam.unity
-    guid: 34995f5dc9829754b97df93e9a23141b
-  - enabled: 1
     path: Assets/Scenes/Leveldesign.unity
     guid: d09d3c76f6df66e42bffcfd884a6f446
   m_configObjects:
