@@ -9,16 +9,10 @@ public class SpawnManager : MonoBehaviour
     private int intervalOfX = 10;
     private int spawnPosZ = -20;
 
-    // a reference to the WaveManager instance
     private WaveManager waveManager;
-
-    // responsible for spawning zombies 
     private Coroutine spawnCoroutine;
 
-    // Enemy health settings
     public int enemyMaxHealth = 100;
-
-    // list to keep track of currently active zombies 
     private List<GameObject> activeEnemies = new List<GameObject>();
 
     void Start()
@@ -30,12 +24,10 @@ public class SpawnManager : MonoBehaviour
             return;
         }
 
-        // OnWaveStart event is triggered
         waveManager.OnWaveStart += StartSpawning;
         waveManager.OnWaveEnd += StopSpawning;
     }
 
-    // starts coroutine to spawn enemies 
     void StartSpawning(int waveNumber)
     {
         if (spawnCoroutine != null)
@@ -45,7 +37,6 @@ public class SpawnManager : MonoBehaviour
         spawnCoroutine = StartCoroutine(SpawnEnemies());
     }
 
-    // stops coroutine that spawns enemies 
     void StopSpawning(int waveNumber)
     {
         if (spawnCoroutine != null)
@@ -55,12 +46,10 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    // coroutine that continously spawns enemies based on the spawn interval defined by WaveManager
     IEnumerator SpawnEnemies()
     {
         while (true)
         {
-            // checks for conditions of CanSpawnEnemy method
             if (waveManager.CanSpawnEnemy())
             {
                 SpawnRandomZombie();
@@ -68,7 +57,7 @@ public class SpawnManager : MonoBehaviour
             }
             else
             {
-                yield return null; // Wait for the next frame if we can't spawn
+                yield return null;
             }
         }
     }
@@ -86,12 +75,16 @@ public class SpawnManager : MonoBehaviour
             wanderingAI.target = xrOriginTransform;
         }
 
-        // Add enemy to active list and set its health
+        EnemyWrapper enemyWrapper = newZombie.GetComponent<EnemyWrapper>();
+        if (enemyWrapper == null)
+        {
+            enemyWrapper = newZombie.AddComponent<EnemyWrapper>();
+        }
+        enemyWrapper.Initialize(enemyMaxHealth, OnEnemyDeath);
+
         activeEnemies.Add(newZombie);
-        newZombie.AddComponent<EnemyWrapper>().Initialize(enemyMaxHealth, OnEnemyDeath);
     }
 
-    // handles the event of an enemy dying, removing from the active enemies list and notifying the WaveManager
     void OnEnemyDeath(GameObject enemy)
     {
         activeEnemies.Remove(enemy);
@@ -99,45 +92,21 @@ public class SpawnManager : MonoBehaviour
         Destroy(enemy);
     }
 
-    // damages an enemy
-    public void DamageEnemy(GameObject enemy, int damage)
+    public void DamageEnemy(EnemyWrapper enemyWrapper, int damage)
     {
-        EnemyWrapper enemyWrapper = enemy.GetComponent<EnemyWrapper>();
         if (enemyWrapper != null)
         {
             enemyWrapper.TakeDamage(damage);
+            Debug.Log($"Enemy took {damage} damage. Current health: {enemyWrapper.GetHealth()}");
         }
     }
 
-    // unsubscribes from the wave start and end events when the SpawnManager is destroyed 
     void OnDestroy()
     {
         if (waveManager != null)
         {
             waveManager.OnWaveStart -= StartSpawning;
             waveManager.OnWaveEnd -= StopSpawning;
-        }
-    }
-
-    // Inner class to handle enemy health
-    private class EnemyWrapper : MonoBehaviour
-    {
-        private int health;
-        private System.Action<GameObject> onDeath;
-
-        public void Initialize(int maxHealth, System.Action<GameObject> deathCallback)
-        {
-            health = maxHealth;
-            onDeath = deathCallback;
-        }
-
-        public void TakeDamage(int damage)
-        {
-            health -= damage;
-            if (health <= 0)
-            {
-                onDeath?.Invoke(gameObject);
-            }
         }
     }
 }

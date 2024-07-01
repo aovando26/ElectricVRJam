@@ -11,18 +11,15 @@ public class ElectricityAttack : MonoBehaviour
     public float electricityConsumptionRate = 10.0f;
     public Transform handTransform;
     public float heightOffset = 1f;
-
     public SpawnManager spawnManager;
     public int damageAmount = 20;
+    public LayerMask enemyLayer;
 
     private ActionBasedController controller;
     private Player player;
     private float elapsedTime;
-
-    //  indicator to check if the player's electricity is ready - initally set to false
     private bool isElectricityReady = false;
 
-    // subscribes and unsubscribes to the OnElectricityReady event from the Player class
     private void OnEnable()
     {
         Player.OnElectricityReady += HandleElectricityReady;
@@ -38,25 +35,29 @@ public class ElectricityAttack : MonoBehaviour
         controller = GetComponent<ActionBasedController>();
         player = GetComponentInParent<Player>();
         audioSource = GetComponent<AudioSource>();
+
+        if (spawnManager == null)
+        {
+            Debug.LogError("SpawnManager is not assigned to ElectricityAttack!");
+        }
     }
 
-    // this event is triggered when the player's electricity is ready for attack 
     private void HandleElectricityReady()
     {
         isElectricityReady = true;
+        Debug.Log("Electricity is ready for attack!");
     }
 
     private void Update()
     {
-        // check if electricity is ready, action performed, and if player has enough electricity (greater than 0)
         if (controller.activateAction.action.phase == InputActionPhase.Performed && player.electricity > 0)
         {
             elapsedTime += Time.deltaTime;
-
             if (elapsedTime >= 1f)
             {
                 player.UseElectricity(electricityConsumptionRate);
                 elapsedTime = 0f;
+                Debug.Log($"Used {electricityConsumptionRate} electricity. Remaining: {player.electricity}");
             }
 
             vfxGraphDirectionalElectricity.SetFloat("Lifetime", 1f);
@@ -68,33 +69,63 @@ public class ElectricityAttack : MonoBehaviour
                 audioSource.Play();
             }
 
-            // raycasting to detect hits
-            Ray ray = new Ray(handTransform.position, handTransform.forward);
-            if (Physics.Raycast(ray, out RaycastHit hit))
-            {
-                ReactiveTarget target = hit.collider.GetComponent<ReactiveTarget>();
-                GameObject enemy = hit.collider.gameObject;
-                int scorePerPrefab = 1;
-                //Debug.Log($"Current score is {scorePerPrefab}");
-                if (target != null)
-                {
-                    target.ReactToHit();
-                    ScoreManager.instance.AddScore(scorePerPrefab);
-                    spawnManager.DamageEnemy(enemy, damageAmount);
-                }
-            }
+            PerformElectricityAttack();
         }
         else
         {
-            // VFX settings are reset
             elapsedTime = 0f;
             vfxGraphDirectionalElectricity.SetFloat("Lifetime", 0f);
 
-            // stops audio playback
             if (audioSource.isPlaying)
             {
                 audioSource.Stop();
             }
+        }
+    }
+
+    private void PerformElectricityAttack()
+    {
+        Ray ray = new Ray(handTransform.position, handTransform.forward);
+        RaycastHit hit;
+
+        Debug.DrawRay(ray.origin, ray.direction * 10f, Color.blue, 0.1f);
+
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, enemyLayer))
+        {
+            Debug.Log($"Hit object: {hit.collider.gameObject.name} at distance {hit.distance}");
+
+            ReactiveTarget target = hit.collider.GetComponent<ReactiveTarget>();
+            if (target != null)
+            {
+                target.ReactToHit();
+                Debug.Log("ReactiveTarget hit and reacted");
+            }
+
+            EnemyWrapper enemyWrapper = hit.collider.GetComponent<EnemyWrapper>();
+            if (enemyWrapper != null)
+            {
+                if (spawnManager != null)
+                {
+                    spawnManager.DamageEnemy(enemyWrapper, damageAmount);
+                    Debug.Log($"Damaging enemy for {damageAmount}");
+                }
+                else
+                {
+                    Debug.LogError("SpawnManager is null in ElectricityAttack!");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Hit object does not have an EnemyWrapper component");
+            }
+
+            int scorePerPrefab = 1;
+            ScoreManager.instance.AddScore(scorePerPrefab);
+            Debug.Log($"Score added. Current score: {ScoreManager.instance.GetScore()}");
+        }
+        else
+        {
+            Debug.Log("Electricity ray did not hit any enemy");
         }
     }
 }
