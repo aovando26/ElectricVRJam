@@ -163,8 +163,13 @@ PlayerSettings:
   applicationIdentifier:
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     Android: com.UnityTechnologies.com.unity.template.urpblank
     Standalone: com.Unity-Technologies.com.unity.template.urp-blank
+=======
+    Android: com.UnityTechnologies.com.unity.electric.jam
+    Standalone: com.Unity-Technologies.com.unity.template.oldmanzeus
+>>>>>>> Stashed changes
 =======
     Android: com.UnityTechnologies.com.unity.electric.jam
     Standalone: com.Unity-Technologies.com.unity.template.oldmanzeus
