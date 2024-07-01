@@ -296,6 +296,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   stoppingDistance: 1
+  wallCheckDistance: 1.5
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  avoidanceAngle: 45
+  obstacleCheckRadius: 3
 --- !u!195 &-1594405366521357737
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -341,10 +347,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &8775178697868719850
 MonoBehaviour:
   m_ObjectHideFlags: 0

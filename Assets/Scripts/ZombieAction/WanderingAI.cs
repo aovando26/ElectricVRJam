@@ -5,11 +5,21 @@ using System.Collections;
 public class WanderingAI : MonoBehaviour
 {
     private NavMeshAgent agent;
-    public Transform target; // refer to line 34 of spawn manager
+    public Transform target;
     [SerializeField] private float stoppingDistance = 1f;
     public bool IsInProximity { get; private set; }
     private AnimateEnemy animateEnemy;
     private bool isAttacking = false;
+
+    [SerializeField] private float wallCheckDistance = 1.5f;
+    [SerializeField] private LayerMask wallLayer;
+    [SerializeField] private float avoidanceAngle = 45f;
+    [SerializeField] private float obstacleCheckRadius = 3f;
+
+    private void Awake()
+    { 
+        wallLayer = LayerMask.GetMask("wallLayer");
+    }
 
     private void Start()
     {
@@ -29,6 +39,10 @@ public class WanderingAI : MonoBehaviour
     {
         if (agent != null && agent.isOnNavMesh)
         {
+            if (IsNearObstacle())
+            {
+                CheckForWallAndAvoid();
+            }
             MoveToTarget();
             UpdateWalkingAnimation();
         }
@@ -38,19 +52,38 @@ public class WanderingAI : MonoBehaviour
         }
     }
 
+    private bool IsNearObstacle()
+    {
+        return Physics.CheckSphere(transform.position, obstacleCheckRadius, wallLayer);
+    }
+
+    private void CheckForWallAndAvoid()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, wallCheckDistance, wallLayer))
+        {
+            Vector3 avoidanceDirection = Quaternion.Euler(0, Random.Range(-avoidanceAngle, avoidanceAngle), 0) * -hit.normal;
+            Vector3 newTargetPosition = transform.position + avoidanceDirection * 5f;
+
+            NavMeshHit navMeshHit;
+            if (NavMesh.SamplePosition(newTargetPosition, out navMeshHit, 5f, NavMesh.AllAreas))
+            {
+                agent.SetDestination(navMeshHit.position);
+            }
+        }
+    }
+
     private void MoveToTarget()
     {
         if (target != null)
         {
             agent.SetDestination(target.position);
             float distanceToTarget = Vector3.Distance(transform.position, target.position);
-
             IsInProximity = distanceToTarget <= stoppingDistance;
-
             if (IsInProximity && !isAttacking)
             {
                 RotateToTarget();
-                agent.isStopped = true; // Stop the NavMeshAgent when reaching the target
+                agent.isStopped = true;
                 StartCoroutine(StopAndAttack());
             }
             else
@@ -70,14 +103,13 @@ public class WanderingAI : MonoBehaviour
     private IEnumerator StopAndAttack()
     {
         isAttacking = true;
-        yield return new WaitForSeconds(1f); // Wait for 1 second
+        yield return new WaitForSeconds(1f);
         animateEnemy.EnemyAttackAnimation();
         isAttacking = false;
     }
 
     private void UpdateWalkingAnimation()
     {
-        // Update walking animation based on NavMeshAgent's velocity
         if (animateEnemy != null)
         {
             bool isWalking = agent.velocity.sqrMagnitude > 0f && !IsInProximity;
