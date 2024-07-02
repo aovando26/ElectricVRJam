@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DestroyOutOfBounds : MonoBehaviour
 {
-    private int limitZ = 20;
+    private int limitZ = 100;
 
     void Start()
     {

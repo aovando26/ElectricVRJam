@@ -16,7 +16,7 @@ public class SpawnManager : MonoBehaviour
     private Coroutine spawnCoroutine;
 
     // Enemy health settings
-    public int enemyMaxHealth = 100;
+    public int enemyMaxHealth = 200;
 
     // list to keep track of currently active zombies 
     private List<GameObject> activeEnemies = new List<GameObject>();
