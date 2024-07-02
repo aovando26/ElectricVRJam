@@ -17,9 +17,13 @@ public class Player : MonoBehaviour
     public TextMeshProUGUI gameOverText;
     public Image blackOverlay;
     public float resetDelay = 5f;
+    public GameObject hurtInterface;
+    private Animator hurtAnimator; 
 
     void Start()
     {
+        hurtAnimator = hurtInterface.GetComponent<Animator>();
+
         if (electricitySlider != null)
         {
             electricitySlider.value = electricityStart / maxCharge;
@@ -56,7 +60,10 @@ public class Player : MonoBehaviour
     public void TakeDamage(int damageAmount)
     {
         health -= damageAmount;
-        Debug.Log($"Health : {health}");
+
+        Debug.Log("Current health is: " + health);
+        //hurtAnimator.SetBool("playHurtAnimation", true);
+        hurtInterface.SetActive(true);
         if (health <= 0)
         {
             Die();
@@ -65,8 +72,11 @@ public class Player : MonoBehaviour
 
     public void Heal(int healAmount)
     {
+        hurtInterface.SetActive(false);
         health += healAmount;
         health = Mathf.Clamp(health, 0, 100);
+        //hurtAnimator.SetBool("playHurtAnimation", false);
+        Debug.Log("Current health is: " + health);
     }
 
     public void UseElectricity(float amount)
